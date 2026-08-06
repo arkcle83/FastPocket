@@ -1,0 +1,42 @@
+{
+  "name": "fastpocket-desktop",
+  "version": "0.1.0",
+  "description": "Interface Electron locale pour Kyutai Pocket TTS",
+  "productName": "FastPocket",
+  "main": "main.js",
+  "private": true,
+  "license": "MIT",
+  "author": "arkcle",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arkcle83/FastPocket.git"
+  },
+  "homepage": "https://github.com/arkcle83/FastPocket#readme",
+  "bugs": {
+    "url": "https://github.com/arkcle83/FastPocket/issues"
+  },
+  "keywords": [
+    "electron",
+    "text-to-speech",
+    "pocket-tts",
+    "local-first",
+    "accessibility"
+  ],
+  "scripts": {
+    "start": "electron .",
+    "check:js": "node --check main.js && node --check preload.js && node --check renderer/app.js && node --check renderer/text-utils.js",
+    "check:python": "python -m py_compile pocket_tts/desktop_backend.py pocket_tts/desktop_config.py",
+    "check": "npm run check:js && npm run check:python",
+    "test": "node --test tests/desktop/*.test.cjs"
+  },
+  "dependencies": {
+    "ffmpeg-static": "5.3.0",
+    "pdf-parse": "2.4.5"
+  },
+  "devDependencies": {
+    "electron": "43.3.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

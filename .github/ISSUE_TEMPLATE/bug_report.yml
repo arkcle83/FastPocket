@@ -1,0 +1,35 @@
+name: Bug
+description: Signaler un comportement reproductible de FastPocket
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Merci de ne joindre aucun texte privé, token ou échantillon vocal non autorisé.
+  - type: input
+    id: environment
+    attributes:
+      label: Environnement
+      description: OS, version Node et version Python
+      placeholder: Windows 11 · Node 22.22 · Python 3.10
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes de reproduction
+      placeholder: "1. Ouvrir…\n2. Choisir…\n3. Cliquer…"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Résultat attendu
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Résultat observé et logs
+    validations:
+      required: true

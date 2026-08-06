@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' blob: data:; connect-src 'none'" />
+    <title>FastPocket — Pocket TTS</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="app-shell">
+      <header class="topbar reveal reveal-1">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <div>
+            <p class="eyebrow">KYUTAI ENGINE · LOCAL CPU</p>
+            <h1>Fast<span>Pocket</span></h1>
+          </div>
+        </div>
+        <div class="backend-pill" id="backendPill" data-phase="starting">
+          <span class="status-dot"></span>
+          <span id="backendLabel">Connexion au moteur…</span>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <article class="document-panel reveal reveal-2">
+          <div class="panel-heading">
+            <div>
+              <p class="section-index">01 / SOURCE</p>
+              <h2 id="documentTitle">Nouveau document</h2>
+            </div>
+            <div class="source-actions">
+              <button class="ghost-button" id="clipboardButton" type="button" title="Lire le presse-papiers">
+                <span aria-hidden="true">⌘</span> Coller
+              </button>
+              <button class="ghost-button" id="openButton" type="button">
+                <span aria-hidden="true">↗</span> TXT / PDF
+              </button>
+            </div>
+          </div>
+
+          <div class="editor-wrap">
+            <textarea id="textInput" spellcheck="true" aria-label="Texte à lire" placeholder="Colle un texte ici, ou ouvre un fichier TXT / PDF…"></textarea>
+            <div class="editor-meta">
+              <span><strong id="segmentCount">0</strong> segments</span>
+              <span><strong id="characterCount">0</strong> caractères</span>
+            </div>
+          </div>
+
+          <div class="reading-track" aria-label="Suivi de lecture">
+            <div class="track-heading">
+              <span>POSITION DE LECTURE</span>
+              <span id="positionLabel">— / —</span>
+            </div>
+            <div class="segment-list" id="segmentList">
+              <div class="empty-state">
+                <span class="empty-glyph">Aa</span>
+                <p>Le texte découpé apparaîtra ici pendant la lecture.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <aside class="control-panel reveal reveal-3">
+          <div class="panel-heading compact">
+            <div>
+              <p class="section-index">02 / VOIX</p>
+              <h2>Direction vocale</h2>
+            </div>
+          </div>
+
+          <label class="field-label" for="languageSelect">Modèle de langue</label>
+          <div class="select-shell">
+            <select id="languageSelect"></select>
+            <span aria-hidden="true">⌄</span>
+          </div>
+
+          <label class="field-label" for="voiceSelect">Voix</label>
+          <div class="voice-row">
+            <div class="select-shell">
+              <select id="voiceSelect"></select>
+              <span aria-hidden="true">⌄</span>
+            </div>
+            <button id="customVoiceButton" class="square-button" type="button" title="Ajouter une voix personnalisée">+</button>
+          </div>
+
+          <div class="voice-card">
+            <div class="voice-orbit"><div class="voice-core"></div></div>
+            <div>
+              <span class="voice-kicker">SIGNATURE ACTIVE</span>
+              <strong id="voiceName">Estelle</strong>
+              <small id="voiceMeta">Français · 24 kHz</small>
+            </div>
+            <div class="mini-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+
+          <div class="divider"></div>
+          <p class="section-index">03 / DYNAMIQUE</p>
+
+          <div class="range-control">
+            <div class="range-label"><label for="speedRange">Vitesse</label><output id="speedValue">1.00×</output></div>
+            <input id="speedRange" type="range" min="0.65" max="1.8" step="0.05" value="1" />
+            <div class="range-bounds"><span>Lent</span><span>Rapide</span></div>
+          </div>
+          <div class="range-control">
+            <div class="range-label"><label for="pitchRange">Pitch</label><output id="pitchValue">0 st</output></div>
+            <input id="pitchRange" type="range" min="-6" max="6" step="1" value="0" />
+            <div class="range-bounds"><span>Grave</span><span>Aigu</span></div>
+          </div>
+          <div class="range-control">
+            <div class="range-label"><label for="volumeRange">Volume</label><output id="volumeValue">90%</output></div>
+            <input id="volumeRange" type="range" min="0" max="1" step="0.05" value="0.9" />
+            <div class="range-bounds"><span>Muet</span><span>Plein</span></div>
+          </div>
+
+          <label class="toggle-row">
+            <span><strong>Mode compact</strong><small>Quantification int8, moins de mémoire</small></span>
+            <input id="quantizeToggle" type="checkbox" />
+            <i aria-hidden="true"></i>
+          </label>
+
+          <div class="export-block">
+            <div>
+              <p class="section-index">04 / MASTER</p>
+              <h3>Exporter la lecture</h3>
+            </div>
+            <div class="export-buttons">
+              <button id="exportWavButton" type="button">WAV <span>↗</span></button>
+              <button id="exportMp3Button" type="button">MP3 <span>↗</span></button>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="transport reveal reveal-4">
+        <div class="now-playing">
+          <div class="live-wave" id="liveWave" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div>
+            <span>EN COURS</span>
+            <strong id="nowPlaying">En attente d’un texte</strong>
+          </div>
+        </div>
+
+        <div class="transport-center">
+          <div class="transport-buttons">
+            <button id="previousButton" type="button" title="Segment précédent (Alt + ←)">↶</button>
+            <button id="stopButton" type="button" title="Arrêter">■</button>
+            <button class="play-button" id="playButton" type="button" title="Lire / reprendre (Ctrl + Espace)"><span id="playIcon">▶</span></button>
+            <button id="pauseButton" type="button" title="Pause">Ⅱ</button>
+            <button id="nextButton" type="button" title="Segment suivant (Alt + →)">↷</button>
+          </div>
+          <div class="progress-row">
+            <span id="elapsedTime">00:00</span>
+            <div class="progress-track"><div id="progressFill"></div></div>
+            <span id="durationTime">00:00</span>
+          </div>
+        </div>
+
+        <div class="shortcut-hint"><kbd>Ctrl</kbd><kbd>Space</kbd><span>Lire / Pause</span></div>
+      </footer>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="text-utils.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
